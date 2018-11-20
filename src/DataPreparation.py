@@ -10,7 +10,8 @@ class DataPreparation:
 		self.transform_columns = transform_columns
 		self.hide_apostrophe = hide_apostrophe
 
-	def process(self, df):
+	def process(self, _df):
+		df = _df.copy()
 		t0 = time.time()
 		df['end_date'] = df['end_date'].apply(lambda x: dt.datetime.strptime(x, '%m/%d/%Y'))
 		df['is_woman_owned'] = df['is_woman_owned'].apply(self.toBit)

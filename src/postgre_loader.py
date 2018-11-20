@@ -26,7 +26,7 @@ def main(args):
 	thread = 0
 	pipelines = {}
 	for df in df_chunk:
-		pipelines[thread] = Pipeline(str(thread), dbname, "guarantee_number, transaction_report_id, amount_usd, currency_name, end_date, business_sector, city_town, state_province_region_name, State_Province_Region_code, country_name, region_name, latitude, longitude, is_woman_owned, is_first_time_borrower, business_size", conn_string, df)
+		pipelines[thread] = Pipeline(str(thread), dbname, "guarantee_number, transaction_report_id, amount_usd, currency_name, end_date, business_sector, city_town, state_province_region_name, State_Province_Region_code, country_name, region_name, latitude, longitude, is_woman_owned, is_first_time_borrower, business_size", conn_string, df, '{}.error'.format(dataset))
 		pipelines[thread].start()
 		thread += 1
 
