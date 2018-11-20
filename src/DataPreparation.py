@@ -1,5 +1,3 @@
-import sys
-import psycopg2
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -7,7 +5,8 @@ import time
 
 class DataPreparation:
 
-	def __init__(self, transform_columns = {}, hide_apostrophe = True):
+	def __init__(self, thread_name, transform_columns = {}, hide_apostrophe = True):
+		self.thread_name = thread_name
 		self.transform_columns = transform_columns
 		self.hide_apostrophe = hide_apostrophe
 
@@ -18,7 +17,7 @@ class DataPreparation:
 		df['is_first_time_borrower'] = df['is_first_time_borrower'].apply(self.toBit)
 		df = df.replace("'", "''", regex = True)
 		t1 = time.time()
-		print('preparacao dos dados executada em %.2f s' % (t1 - t0))
+		print('thread %s - preparacao dos dados executada em %.2f s' % (self.thread_name, t1 - t0))
 
 		return df
 
