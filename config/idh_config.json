@@ -1,0 +1,17 @@
+{
+	"host":"localhost",
+	"dataset":"../../datasets/hdi_human_development_index_hdig_value.csv",
+	"dbname": "creditas",
+	"user": "postgres",
+	"password": "andre4918",
+	"tablename": "idh",
+	"chunksize": 10000,
+	"codec": "utf-8",
+	"columns": ["id", "utc_created","utc_updated","country","country_code","indicator_code","indicator","value","year"],
+	"preprocess": {
+		"method": "preprocess",
+		"date_columns": ["utc_created", "utc_updated"], 
+		"date_format": "%Y-%m-%d %H:%M:%S.%f",
+		"replace_apostrophe": true
+	}
+}

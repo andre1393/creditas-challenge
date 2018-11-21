@@ -1,0 +1,15 @@
+{
+	"host":"localhost",
+	"dataset":"../../datasets/DP_LIVE_18112018131139029.csv",
+	"dbname": "creditas",
+	"tablename": "exchange_rate",
+	"user": "postgres",
+	"password": "andre4918",
+	"chunksize": 10000,
+	"columns": ["location","indicator","subject","measure","frequency","year","value","flag_codes"],
+	"preprocess": {
+		"method": "preprocess",
+		"replace_apostrophe": false
+	},
+	"codec": "utf-8"
+}
