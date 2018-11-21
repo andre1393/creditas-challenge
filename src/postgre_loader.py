@@ -7,26 +7,28 @@ import time
 from SourceReader import SourceReader
 from Pipeline import Pipeline
 import threading
+import json
 
 def main(args):
-	host = 'localhost'
-	dbname = 'creditas'
-	user = 'postgres'
-	password = 'andre4918'
-	conn_string = 'host={} dbname={} user={} password={}'.format(host, dbname, user, password)
-	dataset = '../../datasets/DCA_Dataset_Loan_Transactions.csv'
-	chunksize = 10000
+	if len(args) < 1:
+		print('usage: informe o nome do arquivo de configuracao')
+		return
+
+	with open(args[0]) as content:
+		configs = json.load(content)
+
+	conn_string = 'host={} dbname={} user={} password={}'.format(configs['host'], configs['dbname'], configs['user'], configs['password'])
 
 	t0 = time.time()
 
 	# carregando o dataset
-	reader = SourceReader(dataset, chunksize = 10000, names = ['guarantee_number', 'transaction_report_id', 'amount_usd', 'currency_name', 'end_date', 'business_sector', 'city_town', 'state_province_region_name', 'State_Province_Region_code', 'country_name', 'region_name', 'latitude', 'longitude', 'is_woman_owned', 'is_first_time_borrower', 'business_size'])
+	reader = SourceReader(configs['dataset'], chunksize = configs['chunksize'], names = configs['columns'], codec = configs['codec'])
 	df_chunk = reader.read()
 	
 	thread = 0
 	pipelines = {}
 	for df in df_chunk:
-		pipelines[thread] = Pipeline(str(thread), dbname, "guarantee_number, transaction_report_id, amount_usd, currency_name, end_date, business_sector, city_town, state_province_region_name, State_Province_Region_code, country_name, region_name, latitude, longitude, is_woman_owned, is_first_time_borrower, business_size", conn_string, df, '{}.error'.format(dataset))
+		pipelines[thread] = Pipeline(str(thread), configs['dbname'], configs['tablename'], ','.join(configs['columns']), conn_string, df, configs['preprocess'], '{}.error'.format(configs['dataset']))
 		pipelines[thread].start()
 		thread += 1
 
