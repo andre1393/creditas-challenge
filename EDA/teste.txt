@@ -1,0 +1,21 @@
+loan['year'] = loan['End Date'].apply(lambda x: x.split('/')[2])
+
+for country_name in pd.Series.append(loan['Country Name'], hdi['country']).unique():
+    country = loan[loan['Country Name'] == country_name]
+    amount = country.groupby('year').sum()[['Amount (USD)']].reset_index()
+    country_hdi = hdi[hdi['country'] == country_name]
+    value = country_hdi[['year', 'value']]
+    amount['year'] = amount['year'].apply(str)
+    value['year'] = value['year'].apply(str)
+    merge = pd.merge(value, amount, on = 'year', how = 'outer').dropna().sort_values(by = 'year')
+
+    if len(merge) > 3:
+        fig, ax1 = plt.subplots()
+        ax1.set_title(country_name)
+        ax1.scatter(x = merge['year'], y = merge['value'], color = 'r', label = 'value')
+        ax1.set_ylabel('value')
+        ax1.legend(bbox_to_anchor = (0.5, 0., 1, 1))
+        ax2 = ax1.twinx()
+        ax2.scatter(merge['year'], merge['Amount (USD)'], color = 'b', label = 'Amount (USD)')
+        ax2.set_ylabel('Amount cumulativ')
+        ax2.legend(bbox_to_anchor = (0.5, 0., 1.13, 0.9))
