@@ -23,14 +23,13 @@ class Pipeline(threading.Thread):
 
 	def run(self):
 		t0 = time.time()
-		if True:
-#		try:
+		try:
 			# executa o pre processamento dos dados
 			self.df_processed = getattr(DataPreparation, self.dataPreparation.preprocess.get('method'))(self.dataPreparation, self.df)
 			# salva os registros no banco de dados
 			self.loader.load(self.df_processed)
 			print('thread %s executada em %.2f s' % (self.thread_name, time.time() - t0))
-'''		except Exception as err:
+		except Exception as err:
 			print('thread %s - falha no processamento' % self.thread_name)
 			print('Excessao %s: %s' % (type(err), err))
 			
@@ -38,5 +37,5 @@ class Pipeline(threading.Thread):
 			if not os.path.isfile(self.error_output):
    				self.df.to_csv(self.error_output, mode = 'a', index = False, header = True)
 			else: # se ja existe nao coloca o header
-   				self.df.to_csv(self.error_output, mode = 'a', index = False, header = False)'''
+   				self.df.to_csv(self.error_output, mode = 'a', index = False, header = False)
 			
