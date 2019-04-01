@@ -1,15 +1,16 @@
-# desafio-creditas
-projeto de modelagem e ingestão de datasets em um banco de dados postgre
+# Creditas challenge
 
-## Requisitos:
+This project was developed as part of the Creditas selection process. It aims to do modeling and ingesting data in a postgre database using python.
+
+## Requirements:
 * Python 3.x
 * postgre 11.1
 * pip install psycopg2
 
-## Como utilizar:
-1. criar um arquivo .json seguindo o modelo presente na pasta ./config
-2. criar um database e as tabelas conforme exemplo fornecido no arquivo ./scripts/create_tables.sql
-3. executar o comando python ./src/postgre_loader.py ./config/{nome_arquivo_config}
+## How to use:
+1. Create a json file following the model in the ./config folder.
+2. Create a database and the table using the sql script provided in ./scripts/create_tables.sql
+3. Run the command "python ./src/postgre_loader.py ./config/{config_file_name}
 
 ## EDA:
-- A resposta à algumas das perguntas do desafio estão no arquivo ./EDA/eda.html
+- The answer of some questions in the challenge description are in the ./EDA/eda.html
